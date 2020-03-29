@@ -1,6 +1,5 @@
 from fbchat.models import *
 from fbchat import Client
-from switchcase import switch
 
 import menu
 from sys import platform, argv
@@ -27,11 +26,13 @@ thread = menu.get_thread(x, client)
 response = None
 while True:
     if response != '-quit':
-        response = input('Response: ')
+        response = input('Response: (type -help for all the commands)')
         # probably something along the lines of clear the cmd and then print 10 recent messages
         # if user says -update then update without taking any action
         # also update on every action
         # where update is refresh messages output by clearing cmd and posting 10 recent messages
+        # this would be in chat, we can also run the menu again from here if the user inputs '-menu'
+        # let the user know all the inputs with –help
         print('the code')
     else:
         break
