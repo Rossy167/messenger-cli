@@ -10,47 +10,18 @@ from switchcase import switch
 def recent_conversations(client):
     threads = client.fetchThreadList()
     print('Who do you want to talk to: ')
-    for i in range(0, len(threads)):
-        print(str(i) + ': ' + threads[i].name)
-    choice = input('Enter a number: ')
-    return [threads[int(choice)], threads[int(choice)].type]
-
-
-def search_for_user(client, name):
-    threads = client.searchForUsers(name)
-    for i in range(0, len(threads)):
-        try:
+    for i in range(0, len(threads) - 1):
+        if threads[i].name:
             print(str(i) + ': ' + threads[i].name)
-        except:
-            print('uwu i did a fucky')
+        else:
+            users = threads[i].participants
+            user_names = []
+            for user in users:
+                user_obj = client.fetchUserInfo(user)[user]
+                user_names.append(user_obj.name)
+            print(str(i) + ': ' + str(user_names))
     choice = input('Enter a number: ')
-    return [threads[int(choice)], threads[int(choice)].type]
-
-
-def search_for_group(client, group):
-    threads = client.searchForGroups(group)
-    for i in range(0, len(threads)):
-        print(str(i) + ': ' + threads[i].name)
-    choice = input('Enter a number: ')
-    return [threads[int(choice)], threads[int(choice)].type]
-
-
-def get_group_by_uid(client, uid):
-    thread = []
-    try:
-        thread = client.fetchThreadInfo(uid)[uid]
-    except:
-        print('thread not found/not valid')
-    return [thread, ThreadType.GROUP]
-
-
-def get_user_by_uid(client, uid):
-    thread = []
-    try:
-        thread = client.fetchUserInfo(uid)[uid]
-    except:
-        print('user not found/not valid')
-    return [thread, ThreadType.USER]
+    return threads[int(choice)]
 
 
 if __name__ == '__main__':

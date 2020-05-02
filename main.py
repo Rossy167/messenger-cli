@@ -1,9 +1,16 @@
 from fbchat.models import *
 from fbchat import Client
 
-import menu
+import thread_getter
 from sys import platform, argv
 from os import system
+
+
+def login():
+    username = input('enter username: ')
+    password = input('enter password: ')
+    return Client(username, password)
+
 
 # going to be clearing the cmd on updates, so need a quick way on both os
 if platform == "win32":
@@ -14,29 +21,13 @@ else:
 # login details as args, can do better later
 # prompt if argv[1] is empty
 # use flags for more modes etc
-client = Client(argv[1], argv[2])
-
-# this will return the type of search we are doing
-x = menu.start_menu()
+if len(argv) > 1:
+    client = Client(argv[1], argv[2])
+else:
+    client = login()
 
 # this will return a thread by doing the search type specified in x
-thread = menu.get_thread(x, client)
-
-# welcome to the infinite loop which will be chatting in the thread found in get_thread
-response = None
-while True:
-    if response != '-quit':
-        response = input('Response: (type -help for all the commands)')
-        # probably something along the lines of clear the cmd and then print 10 recent messages
-        # if user says -update then update without taking any action
-        # also update on every action
-        # where update is refresh messages output by clearing cmd and posting 10 recent messages
-        # this would be in chat, we can also run the menu again from here if the user inputs '-menu'
-        # let the user know all the inputs with –help
-        print('the code')
-    else:
-        break
-
+thread = thread_getter.recent_conversations(client=client)
 client.logout()
 
 
