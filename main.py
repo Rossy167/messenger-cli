@@ -27,7 +27,22 @@ else:
     client = login()
 
 # this will return a thread by doing the search type specified in x
+clear()
 thread = thread_getter.recent_conversations(client=client)
+name = thread[1]
+thread = thread[0]
+messages = client.fetchThreadMessages(thread_id=thread.uid, limit=20)
+messages.reverse()
+clear()
+print(name + ': ')
+for message in messages:
+    author = client.fetchUserInfo(message.author)[message.author]
+    if message.text != '':
+        print(author.name + ': ' + message.text)
+    else:
+        print(author.name + ' sent an image/attachment')
+
+
 client.logout()
 
 

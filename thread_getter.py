@@ -21,7 +21,17 @@ def recent_conversations(client):
                 user_names.append(user_obj.name)
             print(str(i) + ': ' + str(user_names))
     choice = input('Enter a number: ')
-    return threads[int(choice)]
+    if threads[int(choice)].name:
+        name = threads[i].name
+    else:
+        users = threads[i].participants
+        user_names = []
+        for user in users:
+            user_obj = client.fetchUserInfo(user)[user]
+            user_names.append(user_obj.name)
+        name = str(user_names)
+    
+    return [threads[int(choice)], name]
 
 
 if __name__ == '__main__':
