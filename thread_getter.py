@@ -22,9 +22,9 @@ def recent_conversations(client):
             print(str(i) + ': ' + str(user_names))
     choice = input('Enter a number: ')
     if threads[int(choice)].name:
-        name = threads[i].name
+        name = threads[int(choice)].name
     else:
-        users = threads[i].participants
+        users = threads[int(choice)].participants
         user_names = []
         for user in users:
             user_obj = client.fetchUserInfo(user)[user]
